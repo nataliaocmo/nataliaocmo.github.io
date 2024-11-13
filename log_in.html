@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión</title>
+  <link rel="stylesheet" href="log_in.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<style>
+  button {
+  width: 100%; 
+  padding: 10px 20px;
+  background-color:#0a1e37;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: "Raleway", sans-serif;
+  
+}
+.left-side {
+  flex: 1;
+  background: #0a1e37;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
+<body>
+  <div class="container">
+    <div class="left-side">
+      <img src="IMG/Logo_del_DNP_(2022-2026).png" alt="Logo de IA">
+    </div>
+    <div class="right-side">
+      <div class="top-bar">
+       
+        <h2>Inicio de sesión</h2>
+      </div>
+      <form id="login-form" action="procesar_login.php" method="post">
+        <label for="entidad">ENTIDAD</label>
+        <br>
+        <select id="entidad" name="entidad">
+          <option value="contraloría ">Contraloría</option>
+          <option value="procuraduría">Procuraduría</option>
+          <option value="fiscalia">Fiscalía</option>
+        </select>
+        <br>
+        <label for="IdIngreso">ID</label>
+        <input type="text" name="IdIngreso" id="IdIngreso" required>
+        <br>
+        <label for="contrasena">CONTRASEÑA</label>
+        <div class="password-container">
+          <input type="password" name="contrasena" id="contrasena" required>
+          <span class="toggle-password">
+            <img id="toggle-icon" src="IMG/eye-closed.png" alt="Mostrar contraseña">
+          </span>
+        </div>
+        <br>
+        <button id="entrar" type="submit">Entrar</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    function eliminarTildes(texto) {
+        var original = "ÁÉÍÓÚáéíóú";
+        var sinTilde = "AEIOUaeiou";
+        for (var i = 0; i < original.length; i++) {
+            texto = texto.replace(new RegExp(original[i], "g"), sinTilde[i]);
+        }
+        return texto;
+    }
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('error')) {
+        const error = params.get('error');
+        let message = '';
+        switch (error) {
+          case 'wrong_password':
+            message = 'Id o contraseña incorrecta';
+            break;
+          case 'wrong_id':
+            message = 'Id o contraseña incorrecta';
+            break;
+          default:
+            message = 'Error desconocido';
+        }
+        if (message) {
+          alert(message);
+        }
+      }
+      document.querySelector('.toggle-password').addEventListener('click', function () {
+        const passwordField = document.getElementById('contrasena');
+        const toggleIcon = document.getElementById('toggle-icon');
+        if (passwordField.type === 'password') {
+          passwordField.type = 'text';
+          toggleIcon.src = 'IMG/eye-open.png'; // Cambia a un icono de ojo abierto
+        } else {
+          passwordField.type = 'password';
+          toggleIcon.src = 'IMG/eye-closed.png'; // Cambia a un icono de ojo cerrado
+        }
+      });
+    };
+  </script>
+</body>
+</html>
